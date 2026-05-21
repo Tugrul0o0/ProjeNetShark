@@ -36,7 +36,7 @@ NetShark, ağ trafiğini gerçek zamanlı olarak izleyen, siber tehditleri (öze
 Proje tamamen istemci taraflı (Client-side) çalıştığı için herhangi bir sunucu kurulumuna veya `npm install` bağımlılığına **ihtiyaç duymaz**.
 1.  Bu depoyu bilgisayarınıza indirin veya klonlayın:
     ```bash
-    git clone [https://github.com/Tugrul0o0/netshark.git](https://github.com/Tugrul0o0/netshark.git)
+    git clone [https://github.com/Tugrul0o0/ProjeNetShark.git](https://github.com/Tugrul0o0/ProjeNetShark.git)
     ```
 2.  Proje klasörünün içindeki ana HTML dosyasını (örneğin `index.html`) tarayıcınızda çift tıklayarak açın.
 3.  **Simülatör** sekmesine gidip bir saldırı türünü başlatarak ağ panelinin tepkilerini canlı olarak izleyin!
