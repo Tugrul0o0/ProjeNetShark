@@ -1,0 +1,284 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0e17;--bg2:#0f1520;--bg3:#141c2e;--bg4:#1a2340;
+--br:#1e2d48;--br2:#263654;
+--tx:#c8d8f0;--tx2:#6a88b0;--tx3:#3a5278;
+--gr:#00e5a0;--gr2:#00b87c;--gr3:#004d33;
+--rd:#ff3d5a;--rd2:#cc2040;--rd3:#4d0015;
+--or:#ff8c42;--or2:#cc6a28;--or3:#4d2800;
+--bl:#4db8ff;--bl2:#2980cc;--bl3:#0d2c4d;
+--fn:'JetBrains Mono',monospace;
+}
+body,html{margin:0;padding:0;background:var(--bg)}
+#app{background:var(--bg);color:var(--tx);font-family:var(--fn);width:100%;display:flex;flex-direction:column;min-height:100vh}
+#topbar{background:var(--bg2);border-bottom:1px solid var(--br);display:flex;align-items:center;padding:0 8px;height:42px;gap:6px;overflow:hidden;flex-shrink:0}
+#logo{font-size:14px;font-weight:700;color:var(--gr);white-space:nowrap;flex-shrink:0;letter-spacing:-.3px}
+#logo span{color:var(--tx2);font-weight:400}
+.sb{background:var(--bg3);border:1px solid var(--br);border-radius:4px;padding:2px 6px;font-size:9px;display:flex;align-items:center;gap:3px;white-space:nowrap;flex-shrink:0}
+.sb .v{font-weight:600}
+.sv{color:var(--gr)}.sw{color:var(--or)}.sd{color:var(--rd)}.sb2{color:var(--bl)}
+#tbadge{margin-left:auto;border-radius:4px;padding:2px 7px;font-size:9px;font-weight:600;flex-shrink:0;transition:all .3s}
+.b-low{background:var(--gr3);color:var(--gr);border:1px solid var(--gr2)}
+.b-med{background:var(--or3);color:var(--or);border:1px solid var(--or2)}
+.b-hi{background:var(--rd3);color:var(--rd);border:1px solid var(--rd2);animation:pb .6s ease-in-out infinite alternate}
+@keyframes pb{from{box-shadow:0 0 0 0 rgba(255,61,90,.4)}to{box-shadow:0 0 0 5px rgba(255,61,90,0)}}
+#abanner{display:none;background:var(--rd3);border-bottom:2px solid var(--rd);padding:5px 8px;font-size:10px;color:var(--rd);font-weight:600;align-items:center;gap:6px;flex-shrink:0}
+#abanner.show{display:flex}
+.blink{animation:blk 1s step-end infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:0}}
+#nav{background:var(--bg2);border-bottom:1px solid var(--br);display:flex;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+#nav::-webkit-scrollbar{display:none}
+.ntab{background:none;border:none;color:var(--tx2);font-family:var(--fn);font-size:10px;padding:8px 10px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0}
+.ntab.active{color:var(--gr);border-bottom-color:var(--gr)}
+.ntab .dot{width:5px;height:5px;border-radius:50%;background:var(--tx3);flex-shrink:0}
+.ntab.active .dot{background:var(--gr)}
+.ntab.rdot .dot{background:var(--rd)}
+#cnt{padding:8px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pnl{display:none;flex-direction:column;gap:8px}
+.pnl.active{display:flex}
+.card{background:var(--bg2);border:1px solid var(--br);border-radius:8px;overflow:hidden}
+.ch{padding:7px 10px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:9px;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.7px}
+.cb{padding:8px 10px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.ms{background:var(--bg3);border:1px solid var(--br);border-radius:5px;padding:7px 9px}
+.ms .lb{font-size:8px;color:var(--tx3);text-transform:uppercase;margin-bottom:2px}
+.ms .vl{font-size:15px;font-weight:600}
+.ms .su{font-size:8px;color:var(--tx3);margin-top:1px}
+#chw{position:relative;height:90px}
+#cnv{width:100%;height:90px}
+.ptabs{display:flex;border-bottom:1px solid var(--br)}
+.ptab{background:none;border:none;color:var(--tx2);font-family:var(--fn);font-size:9px;padding:7px 10px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.ptab.active{color:var(--gr);border-bottom-color:var(--gr)}
+.ptab.rt.active{color:var(--rd);border-bottom-color:var(--rd)}
+.ptab .cn{background:var(--bg3);border-radius:3px;padding:1px 4px;font-size:8px}
+.ptab.rt .cn{background:var(--rd3);color:var(--rd)}
+#pkl{overflow-y:auto;max-height:260px}
+.pr{display:grid;grid-template-columns:44px 1fr 40px 36px;gap:0;align-items:center;padding:6px 10px;border-bottom:1px solid var(--br);font-size:9px;cursor:pointer;transition:background .15s;animation:ri .15s ease}
+.pr:hover,.pr:active{background:var(--bg3)}
+@keyframes ri{from{opacity:0}to{opacity:1}}
+.pr .tm{color:var(--tx3)}
+.pr .ip{color:var(--bl);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr .fl{text-align:right}
+.proto{border-radius:3px;padding:1px 4px;font-size:8px;font-weight:600;white-space:nowrap}
+.p-http{background:#1a3a5c;color:#4db8ff}.p-https{background:#132840;color:#7fd4ff}
+.p-dns{background:#1a3a1a;color:#00e5a0}.p-tcp{background:#1a2a4a;color:#7abfff}
+.p-syn{background:#4d0015;color:#ff3d5a}.p-udp{background:#4d2800;color:#ff8c42}
+.p-icmp{background:#2d1a4d;color:#b88aff}
+.fn2{color:var(--gr);font-size:8px}.fw{color:var(--or);font-size:8px}.fd{color:var(--rd);font-size:8px}
+
+/* PAKET DETAY PANEL - in-flow (not fixed) */
+#pkt-detail{background:var(--bg3);border:1px solid var(--bl2);border-radius:8px;margin-top:8px;overflow:hidden;display:none}
+#pkt-detail.open{display:block;animation:dfade .2s ease}
+@keyframes dfade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.dh{background:var(--bl3);border-bottom:1px solid var(--bl2);padding:7px 10px;display:flex;align-items:center;justify-content:space-between}
+.dh-title{font-size:10px;font-weight:600;color:var(--bl)}
+.dclose{background:none;border:1px solid var(--bl2);border-radius:3px;color:var(--bl2);font-family:var(--fn);font-size:9px;padding:2px 7px;cursor:pointer}
+.dclose:hover{color:var(--bl);border-color:var(--bl)}
+.drows{display:flex;flex-direction:column;gap:0}
+.dr{display:flex;padding:5px 10px;border-bottom:1px solid var(--br);gap:8px;font-size:9px;align-items:flex-start}
+.dr:last-child{border-bottom:none}
+.dr .dk{color:var(--tx3);min-width:100px;flex-shrink:0;line-height:1.4}
+.dr .dv{color:var(--tx);word-break:break-all;line-height:1.4;flex:1}
+.dr .dv.safe{color:var(--gr)}.dr .dv.warn{color:var(--or)}.dr .dv.danger{color:var(--rd)}.dr .dv.info{color:var(--bl)}
+.dr .dv.code{font-family:var(--fn);font-size:8px;color:var(--tx2)}
+
+/* risk meter */
+.risk-bar{height:5px;border-radius:3px;background:var(--bg2);margin-top:4px;overflow:hidden}
+.risk-fill{height:100%;border-radius:3px;transition:width .4s}
+
+/* THREATS */
+.tc{background:var(--bg3);border:1px solid var(--rd3);border-radius:7px;padding:10px;margin-bottom:7px;position:relative;overflow:hidden}
+.tc.wn{border-color:var(--or3)}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.tc.danger::before{background:var(--rd)}
+.tc.wn::before{background:var(--or)}
+.th2{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.tt2{font-size:11px;font-weight:700}
+.tbg{border-radius:3px;padding:2px 5px;font-size:8px;font-weight:700}
+.tbc{background:var(--rd3);color:var(--rd);border:1px solid var(--rd2)}
+.tbw{background:var(--or3);color:var(--or);border:1px solid var(--or2)}
+.tgr{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:9px;margin-bottom:7px}
+.til .tl{color:var(--tx3);margin-bottom:1px;font-size:8px}
+.til .tv{color:var(--tx);word-break:break-all}
+.td2{font-size:9px;color:var(--tx2);line-height:1.5;border-top:1px solid var(--br);padding-top:7px}
+.autobtn{width:100%;margin-top:7px;background:var(--rd3);border:1px solid var(--rd2);border-radius:4px;color:var(--rd);font-family:var(--fn);font-size:9px;padding:5px 8px;cursor:pointer;text-align:left;transition:all .2s}
+.autobtn:hover{background:var(--rd2);color:#fff}
+.autobtn.done{background:var(--gr3);border-color:var(--gr2);color:var(--gr)}
+
+/* ACTIONS */
+.ab{background:var(--bg3);border:1px solid var(--br2);border-radius:7px;padding:9px;cursor:pointer;text-align:left;transition:all .2s;font-family:var(--fn);display:flex;align-items:flex-start;gap:8px;width:100%;margin-bottom:6px}
+.ab:hover{border-color:var(--gr);background:var(--bg4)}
+.ab:active{transform:scale(0.99)}
+.ab .ico{font-size:16px;flex-shrink:0}
+.ab .ai{flex:1}
+.ab .at{font-size:10px;font-weight:600;color:var(--tx);margin-bottom:1px}
+.ab .ad{font-size:8px;color:var(--tx3);line-height:1.4}
+.ab .as{font-size:8px;margin-top:4px;padding:2px 5px;border-radius:3px;display:inline-block}
+.s-off{background:var(--bg);color:var(--tx3)}.s-on{background:var(--gr3);color:var(--gr)}.s-act{background:var(--rd3);color:var(--rd)}
+.ab.dbtn{border-color:var(--rd3)}.ab.dbtn:hover{border-color:var(--rd);background:var(--rd3)}
+#bl-list{font-size:9px;max-height:80px;overflow-y:auto;color:var(--tx2)}
+.ble{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--br);gap:4px}
+
+/* SIMULATOR */
+.sc{background:var(--bg3);border:1px solid var(--br);border-radius:7px;padding:10px;margin-bottom:7px}
+.sc:hover{border-color:var(--bl2)}
+.st2{font-size:10px;font-weight:700;color:var(--tx);margin-bottom:2px}
+.sdesc{font-size:8px;color:var(--tx2);line-height:1.4;margin-bottom:5px}
+.sdt{background:var(--bg2);border-radius:4px;padding:6px;margin-bottom:5px;font-size:8px;line-height:1.5}
+.sdl{color:var(--tx3);text-transform:uppercase;font-size:7px;margin-bottom:2px}
+.eff{color:var(--or)}.fx{color:var(--gr)}
+.sbtn{background:var(--bl3);border:1px solid var(--bl2);border-radius:4px;color:var(--bl);font-family:var(--fn);font-size:9px;padding:5px 8px;cursor:pointer;width:100%;transition:all .2s}
+.sbtn:hover{background:var(--bl2);color:#fff}
+.sbtn.run{background:var(--rd3);border-color:var(--rd2);color:var(--rd)}
+
+#logbox{max-height:110px;overflow-y:auto;font-size:9px}
+.le{padding:2px 0;border-bottom:1px solid var(--br);display:flex;gap:6px}
+.lt{color:var(--tx3);white-space:nowrap;min-width:44px}
+.lm{color:var(--tx2)}.ld{color:var(--rd)}.lw{color:var(--or)}.lo{color:var(--gr)}.li{color:var(--bl)}
+
+/* TOAST - in-flow at top */
+#toast{background:var(--bg2);border:1px solid var(--gr2);border-radius:6px;padding:6px 10px;font-size:9px;color:var(--gr);display:none;margin:0 8px 0;animation:tfade .3s ease}
+#toast.rd{border-color:var(--rd2);color:var(--rd)}
+@keyframes tfade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--br2);border-radius:2px}
+</style>
+
+<div id="app">
+<h2 style="position:absolute;left:-9999px">NetShark Ağ Güvenlik Paneli</h2>
+
+<div id="topbar">
+  <div id="logo">Net<span>Shark</span></div>
+  <div class="sb"><span>GEL</span><span class="v sv" id="sb-in">0M</span></div>
+  <div class="sb"><span>PPS</span><span class="v sw" id="sb-pps">0</span></div>
+  <div class="sb"><span>BLK</span><span class="v sd" id="sb-blk">0</span></div>
+  <div id="tbadge" class="b-low">● DÜŞÜK</div>
+</div>
+
+<div id="toast"></div>
+
+<div id="abanner">
+  <span class="blink">⚠</span>
+  <span id="amsg">DDOS TESPİT EDİLDİ</span>
+  <button onclick="autoBlockAll()" style="margin-left:auto;background:var(--rd2);border:none;border-radius:3px;color:#fff;font-family:var(--fn);font-size:8px;padding:2px 7px;cursor:pointer">Tümünü Engelle</button>
+</div>
+
+<div id="nav">
+  <button class="ntab active" onclick="showP('dash',this)"><span class="dot"></span>Gösterge</button>
+  <button class="ntab" onclick="showP('pkts',this)"><span class="dot"></span>Paketler</button>
+  <button class="ntab rdot" onclick="showP('thrt',this)"><span class="dot"></span>Tehditler<span id="tcnt" style="background:var(--rd3);color:var(--rd);border-radius:3px;padding:1px 4px;font-size:8px;margin-left:3px;display:none">0</span></button>
+  <button class="ntab" onclick="showP('acts',this)"><span class="dot"></span>Eylemler</button>
+  <button class="ntab" onclick="showP('sim',this)"><span class="dot"></span>Simülatör</button>
+</div>
+
+<div id="cnt">
+
+<!-- DASHBOARD -->
+<div class="pnl active" id="panel-dash">
+  <div class="g2">
+    <div class="ms"><div class="lb">Gelen Trafik</div><div class="vl" style="color:var(--bl)" id="s-in">0</div><div class="su">Mbps</div></div>
+    <div class="ms"><div class="lb">Giden Trafik</div><div class="vl" style="color:var(--gr)" id="s-out">0</div><div class="su">Mbps</div></div>
+    <div class="ms"><div class="lb">Engellenen</div><div class="vl" style="color:var(--rd)" id="s-blk">0</div><div class="su">pkt/sn</div></div>
+    <div class="ms"><div class="lb">Aktif IP</div><div class="vl" style="color:var(--or)" id="s-ips">0</div><div class="su">bağlantı</div></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">Canlı Trafik</span><span style="font-size:8px;color:var(--tx3)"><span style="color:var(--bl)">■</span>GEL <span style="color:var(--gr)">■</span>GİD <span style="color:var(--rd)">■</span>BLK</span></div>
+    <div class="cb" style="padding:6px 8px"><div id="chw"><canvas id="cnv" role="img" aria-label="Canlı ağ trafik grafiği"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">Olay Günlüğü</span><span style="font-size:8px;color:var(--tx3)" id="lcnt">0</span></div>
+    <div class="cb" style="padding:6px 8px"><div id="logbox"></div></div>
+  </div>
+</div>
+
+<!-- PACKETS -->
+<div class="pnl" id="panel-pkts">
+  <div class="card">
+    <div class="ptabs">
+      <button class="ptab active" id="pt-n" onclick="switchPkt('n')">Normal <span class="cn" id="pcn-n">0</span></button>
+      <button class="ptab rt" id="pt-d" onclick="switchPkt('d')">Tehlikeli <span class="cn" id="pcn-d">0</span></button>
+    </div>
+    <div style="padding:6px 10px;font-size:8px;color:var(--tx3);border-bottom:1px solid var(--br)">Pakete tıklayarak detaylı inceleme yapabilirsiniz</div>
+    <div id="pkl"></div>
+  </div>
+  <div id="pkt-detail">
+    <div class="dh">
+      <span class="dh-title" id="det-title">Paket Detayı</span>
+      <button class="dclose" onclick="closeDet()">✕ Kapat</button>
+    </div>
+    <div class="drows" id="det-rows"></div>
+  </div>
+</div>
+
+<!-- THREATS -->
+<div class="pnl" id="panel-thrt">
+  <div class="card">
+    <div class="ch"><span class="ct">Aktif Tehditler</span><span style="font-size:8px;color:var(--tx3)" id="ts2">Güvenli</span></div>
+    <div class="cb" id="thbody"><div style="text-align:center;padding:18px;color:var(--tx3);font-size:10px">✓ Tehdit yok</div></div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="pnl" id="panel-acts">
+  <div class="card">
+    <div class="ch"><span class="ct">Güvenlik Eylemleri</span></div>
+    <div class="cb">
+      <button class="ab" onclick="doAct('block')"><span class="ico">🚫</span><div class="ai"><div class="at">Şüpheli IP'leri Engelle + Kayıt Al</div><div class="ad">Tehlikeli IP'leri blacklist'e ekle ve log'a yaz</div><span class="as s-off" id="a-block">Hazır</span></div></button>
+      <button class="ab" onclick="doAct('ratelimit')"><span class="ico">⏱</span><div class="ai"><div class="at">Rate Limiting</div><div class="ad">Kaynak başına saniyede max 100 istek</div><span class="as s-off" id="a-ratelimit">Kapalı</span></div></button>
+      <button class="ab" onclick="doAct('firewall')"><span class="ico">🛡</span><div class="ai"><div class="at">Firewall Kuralı Uygula</div><div class="ad">Aktif saldırı imzalarını firewall'a aktar</div><span class="as s-off" id="a-firewall">Hazır</span></div></button>
+      <button class="ab" onclick="doAct('geo')"><span class="ico">🌍</span><div class="ai"><div class="at">Coğrafi Filtreleme</div><div class="ad">Tehdit bölgelerinden gelen trafiği engelle</div><span class="as s-off" id="a-geo">Kapalı</span></div></button>
+      <button class="ab" onclick="doAct('scrub')"><span class="ico">🔍</span><div class="ai"><div class="at">Derin Paket İncelemesi (DPI)</div><div class="ad">Şüpheli yük içeren paketleri filtrele</div><span class="as s-off" id="a-scrub">Kapalı</span></div></button>
+      <button class="ab dbtn" onclick="doAct('emergency')"><span class="ico">🆘</span><div class="ai"><div class="at">Acil Durum Modu</div><div class="ad">Tüm gelen trafiği durdur, sadece whitelist</div><span class="as s-off" id="a-emergency">Devre dışı</span></div></button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">Blacklist / Kayıt</span><span style="font-size:8px;color:var(--tx3)" id="blcnt">0 IP</span></div>
+    <div class="cb" style="padding:6px 8px"><div id="bl-list"><span style="color:var(--tx3);font-size:9px">Boş</span></div></div>
+  </div>
+</div>
+
+<!-- SIMULATOR -->
+<div class="pnl" id="panel-sim">
+  <div class="card" style="border-color:var(--or3)">
+    <div class="ch" style="border-color:var(--or3)"><span class="ct" style="color:var(--or)">Tehdit Simülatörü</span><span style="font-size:8px;color:var(--tx3)">Demo/Eğitim</span></div>
+    <div class="cb" id="simgrid"></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const SIMS=[
+  {id:'syn',title:'SYN Flood',icon:'🌊',desc:'TCP el sıkışmasının SYN adımını sahte IP\'lerle doldurur.',effect:'Sunucu meşru bağlantıları reddeder, CPU %100\'e çıkar.',fix:'SYN cookie aç → Rate limiting → BPF filtresi',proto:'SYN',sev:3},
+  {id:'udp',title:'UDP Flood',icon:'📡',desc:'Rastgele portlara devasa UDP akışı göndererek bant genişliğini tüketir.',effect:'DNS ve UDP servisleri erişilemez, bant %100 dolar.',fix:'Upstream filtre → UDP rate limit → Blacklist',proto:'UDP',sev:2},
+  {id:'http',title:'HTTP GET Flood',icon:'🔁',desc:'Bot ağı ile binlerce IP\'den saniyede binlerce GET isteği.',effect:'Web sunucusu iş parçacıkları tükenir, 503 başlar.',fix:'WAF kuralı → CAPTCHA → CDN → Rate limit',proto:'HTTP',sev:2},
+  {id:'slowloris',title:'Slowloris',icon:'🐌',desc:'HTTP başlıklarını çok yavaş göndererek bağlantı havuzunu doldurur.',effect:'Görünürde düşük trafik ama servis çöker.',fix:'Timeout düşür → Max bağlantı süresi → Nginx',proto:'HTTP',sev:3},
+  {id:'icmp',title:'ICMP Ping Flood',icon:'📶',desc:'Büyük ICMP paketleriyle bant genişliği ve CPU tükenir.',effect:'Gecikme artar, paket kaybı yaşanır.',fix:'ICMP rate limit → Blacklist → Upstream filtre',proto:'ICMP',sev:1},
+  {id:'dns',title:'DNS Amplifikasyon',icon:'📣',desc:'Küçük DNS sorgularını büyük yanıtlara dönüştürüp hedefe yönlendirir.',effect:'100x trafik amplifiyesi — savunması zor saldırı.',fix:'DNSSEC → Recursive DNS kapat → Amplifikasyon filtresi',proto:'DNS',sev:3}
+];
+
+const NIPS=['192.168.1.10','10.0.0.5','172.16.0.3','192.168.1.25','10.0.1.8','192.168.0.254'];
+const DIPS=['45.33.32.156','198.51.100.42','203.0.113.77','185.220.101.13','91.240.118.172','104.21.55.0'];
+const PROTOS=['HTTP','HTTPS','DNS','TCP','UDP'];
+const PORTS_BY_PROTO={HTTP:[80,8080,8000],HTTPS:[443,8443],DNS:[53],TCP:[22,25,110,143,3306,5432],UDP:[53,123,161,500],SYN:[80,443,22,3389],ICMP:[0]};
+const COUNTRIES={normal:['Türkiye','Almanya','Fransa','Amerika Birleşik Devletleri'],danger:['Rusya','Çin','Kuzey Kore','İran','Ukrayna (anonim)']};
+const USER_AGENTS_NORMAL=['Mozilla/5.0 (Windows NT 10.0) Chrome/124','Mozilla/5.0 (Macintosh) Safari/537','Mozilla/5.0 (Linux; Android 13) Chrome/123'];
+const USER_AGENTS_BOT=['python-requests/2.28','curl/7.88.1','Scrapy/2.11','Go-http-client/1.1','masscan/1.3'];
+const HTTP_METHODS=['GET','POST','GET','GET','HEAD'];
+const HTTP_PATHS=['/','/ index.html','/api/users','/login','/wp-admin','/robots.txt'];
+const PAYLOADS_DANGER=['SYN bayrakları: SYN (0x02)','Parçalı paket: offset!=0','TTL anormalliği: TTL=1','Sahte kaynak IP tespit edildi','Sıfır pencere boyutu (Window=0)'];
+
+const S={pkts:[],dpkts:[],threats:[],bl:[],blLog:[],logs:[],lc:0,tick:0,sims:new Set(),acts:{block:false,ratelimit:false,firewall:false,geo:false,scrub:false,emergency:false},lvl:'low',pktTab:'n'};
+const cin=[],cout=[],cblk=[];const MX=30;
+let chart,simStart={};
+for(let i=0;i<MX;i++){cin.push(0);cout.push(0);cblk.push(0);}
+
+function rnd(a,b){return Math.random()*(b-a)+a}
+function ri(a,b){return Math.floor(rnd(a,b)
